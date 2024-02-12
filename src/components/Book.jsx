@@ -8,7 +8,7 @@ function Book({ id, title, image, ratings, originalPrice, price, author }) {
   return (
     <div
       onClick={() => navigate(`/book/${id}`)}
-      className="relative border border-gray-200 shadow-md my-4 mx-4 flex flex-col gap-2 p-2 cursor-pointer hover:bg-gray-200"
+      className="relative border bg-white border-gray-200 shadow-md my-4 mx-4 flex flex-col gap-2 p-2 cursor-pointer hover:bg-gray-200"
     >
       {/* Favorite Icon */}
       <div className="absolute top-1 right-1">

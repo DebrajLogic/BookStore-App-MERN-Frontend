@@ -1,35 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ContentWrapper } from "../components";
 import { calculateDiscount } from "../utils/discountCalculator";
-
-const book = {
-  id: 1,
-  title: "To Kill a Mockingbird",
-  description:
-    " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quas ab autem dolor molestias vitae veniam, animi doloribus nisi sed accusamus.",
-  image: "https://m.media-amazon.com/images/I/81YkqyaFVEL._SY522_.jpg",
-  ratings: 4.5,
-  originalPrice: "$12.99",
-  price: "$9.99",
-  author: "Harper Lee",
-};
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function BookDetails() {
   const [favourite, setFavourite] = useState(false);
+  const [book, setBook] = useState(null);
+
+  const { id } = useParams();
+  console.log("Id = ", id);
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/v1/book-details?id=${id}`
+        );
+        console.log("Response = ", response);
+        setBook(response?.data);
+      } catch (error) {
+        console.log("Error fetching book details !!!", error);
+      }
+    };
+    fetchBookDetails();
+  }, []);
   return (
     <ContentWrapper>
-      <div className="w-full flex mx-20 my-2 px-4 py-4 border border-blue-500 rounded-lg">
+      <div className="w-full flex-col sm:flex sm:flex-row mx-1 md:mx-2 lg:mx-20 my-2 px-4 py-4 border border-blue-500 rounded-lg">
         {/* LEFT SECTION */}
-        <div className="w-1/2">
-          <div className="relative w-[400px] overflow-hidden">
+        <div className="w-full sm:w-1/2">
+          <div className="relative  md:w-[300px] lg:w-[400px] overflow-hidden">
             <img
               className="h-full w-full object-contain"
-              src={book.image}
+              src={book?.image}
               alt=""
             />
             <div
               onClick={() => setFavourite((prev) => !prev)}
-              className="cursor-pointer absolute top-1 right-1"
+              className="cursor-pointer absolute top-1 right-1 bg-white p-1 shadow-lg rounded-full"
             >
               {favourite ? (
                 <svg
@@ -61,24 +70,24 @@ function BookDetails() {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="mt-4 w-1/2 flex flex-col justify-start items-center">
-          <h1 className="text-2xl font-semibold">{book.title}</h1>
+        <div className="mt-4 w-full sm:w-1/2 flex flex-col justify-start items-center">
+          <h1 className="text-2xl font-semibold">{book?.title}</h1>
           <div className="mt-4 flex items-center justify-between gap-5">
-            <small>Ratings: {book.ratings}</small>
-            <span>{book.author}</span>
+            <small>Ratings: {book?.ratings}</small>
+            <span>{book?.author}</span>
           </div>
 
-          <div className="mt-4 flex gap-5 items-center">
+          <div className="mt-4 flex gap-10 sm:gap-5 items-center">
             <span className="text-xl font-semibold text-green-600">
-              {book.price}
+              {book?.price}
             </span>
-            <span className="line-through">{book.originalPrice}</span>
+            <span className="line-through">{book?.originalPrice}</span>
             <span className="text-green-600">
-              {calculateDiscount(book.originalPrice, book.price)}% off
+              {calculateDiscount(book?.originalPrice, book?.price)}% off
             </span>
           </div>
 
-          <p className="mt-4">{book.description}</p>
+          <p className="mt-4">{book?.description}</p>
           <div className="flex mt-8 gap-4">
             <button className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
               <svg
