@@ -7,7 +7,9 @@ function Home() {
   const [books, setBooks] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:4000/api/v1/books");
+      const response = await axios.get(
+        `${import.meta.env.VITE_APP_BASE_URL}/books`
+      );
       console.log("Response = ", response?.data);
       setBooks(response?.data);
 

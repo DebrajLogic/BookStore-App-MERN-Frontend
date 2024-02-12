@@ -26,7 +26,7 @@ function AddBook() {
     };
 
     const response = await axios.post(
-      "http://localhost:4000/api/v1/add-book",
+      `${import.meta.env.VITE_APP_BASE_URL}/add-book`,
       book,
       {
         headers: {

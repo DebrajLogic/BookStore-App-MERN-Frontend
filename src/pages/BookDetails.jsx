@@ -15,7 +15,7 @@ function BookDetails() {
     const fetchBookDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/v1/book-details?id=${id}`
+          `${import.meta.env.VITE_APP_BASE_URL}/book-details?id=${id}`
         );
         console.log("Response = ", response);
         setBook(response?.data);
