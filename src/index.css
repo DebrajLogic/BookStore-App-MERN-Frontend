@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type='text'],
+textarea {
+    @apply w-full px-4 py-2 rounded-xl outline-none border border-gray-300 shadow-md
+}
